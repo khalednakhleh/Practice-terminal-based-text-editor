@@ -7,8 +7,7 @@
 
 #include "utils.h"
 /* Defining structures */
-EditorConfig E; 
-abuf ab = ABUF_INIT;
+EditorConfig E;
 DefWs ws;
 /*---------------------*/
 
