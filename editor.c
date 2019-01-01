@@ -28,28 +28,56 @@ switch (c) {
 	exit (0);
 	break;
 
+	case 'w':
+	case 's':
+	case 'a':
+	case 'd':
+		EditorMoveCursor(c);
+		break;
+
 }}
 
 void EditorRefreshScreen(){
 
-write(STDOUT_FILENO, "\x1b[2J", 4); // For hiding the cursor
+abuf ab = ABUF_INIT;
+
+AbAppend(&ab, "\x1b[?25l", 6); // For hiding the cursor
 /* 4 means we're typing 4 bytes to terminal. \x1b is esc "return 27", 
  followed by [. 2J clears the entire screen "1J clears from screen to cursor,
  and 0J from cursor to end of screen." */
-write(STDOUT_FILENO, "\x1b[H", 3);
+AbAppend(&ab, "\x1b[H", 3);
 /* H is for repositing the cursor back to screen's top-left. */
-EditorDrawRows();
+EditorDrawRows(&ab);
 
-write(STDOUT_FILENO, "\x1b[H", 3); // To reshow the cursor.
+char buf[32];
+snprintf(buf, sizeof(buf), "\x1b[%d;%dH", E.cy + 1, E.cx + 1);
+AbAppend(&ab, buf, strlen(buf));
+
+AbAppend(&ab, "\x1b[?25h", 6);
+
+write(STDOUT_FILENO, ab.b, ab.len);
+AbFree(&ab);
 }
 
 void EditorDrawRows(abuf *ab){
 int y;
 for(y = 0; y < E.screenrows; ++y){
-		write(STDOUT_FILENO, "~", 1);
-
+	if(y == E.screenrows / 3){
+		char welcome[80];
+		int welcomelen = snprintf(welcome, sizeof(welcome), "Kiloed Editor -- Version %s", KILOED_VERSION);
+		if (welcomelen > E.screencols) welcomelen = E.screencols;
+		int padding = (E.screencols - welcomelen) / 2;
+		if (padding){
+			AbAppend(ab, "~", 1);
+			--padding;
+		}
+		while(--padding) AbAppend(ab, " ", 1);
+		AbAppend(ab, welcome, welcomelen);
+	}
+		AbAppend(ab, "~", 1);
+		AbAppend(ab, "\x1b[K", 3);
 		if(y < E.screenrows - 1){
-			write(STDOUT_FILENO, "\r\n", 2);
+			AbAppend(ab, "\r\n", 2);
 		}
 
 	}}
@@ -90,8 +118,22 @@ int GetCursorPosition(int *rows, int *cols){
 	return 0;
 }
 
-
-
+void EditorMoveCursor(char key){
+	switch(key){
+		case 'a':
+		E.cx--;
+		break;
+		case 'd':
+		E.cx++;
+		break;
+		case 's':
+		E.cy--;
+		break;
+		case 'w':
+		E.cy++;
+		break;
+	}
+}
 
 
 

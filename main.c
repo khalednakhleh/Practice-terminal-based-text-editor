@@ -16,6 +16,5 @@ int main(void){
         EditorProcessKeyPress();
     }    
 
-
     return EXIT_SUCCESS;
 }
