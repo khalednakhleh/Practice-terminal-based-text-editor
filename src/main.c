@@ -14,7 +14,7 @@ int main(void){
     while(1){
         EditorRefreshScreen();
         EditorProcessKeyPress();
-    }    
-
+    }
+    
     return EXIT_SUCCESS;
 }

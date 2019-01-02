@@ -24,7 +24,6 @@
 #define ABUF_INIT {NULL, 0}
 #define KILOED_VERSION "0.0.5"
 
-// defining exit command for CTRL-q.
 /*    ----- structures' declarations -----   */
 
 typedef struct{
@@ -41,13 +40,20 @@ char *b;
 int len;
 }abuf;
 
+typedef enum{
+	ARROW_UP = 1000,
+	ARROW_DOWN,
+	ARROW_LEFT,
+	ARROW_RIGHT
+}EditorKey;
+
 /*    ----- Function prototypes -----   */
 
 void EnableRawMode(void); /* Function EnableRawMode() converts the terminal from canonical (cooked) mode to raw mode. 
  Function EnableRawMode() doesnt show the characters being typed in the terminal.Function implementation can be found in attributes.c */
 void DisableRawMode(void); // Function DisableRawMode() reverts the terminal back to cooked mode.
-void  Die(const char *s); // Error handling function. Prints out an error string if a function fails.
-char EditorReadKey(); // Function that reads each keypress from the user, also checks if an errnous value is placed, for which the function exits the program with error value.
+void Die(const char *s); // Error handling function. Prints out an error string if a function fails.
+int EditorReadKey(); // Function that reads each keypress from the user, also checks if an errnous value is placed, for which the function exits the program with error value.
 void EditorProcessKeyPress(); // Function that checks whether CTRL-q was placed to exit the program.
 void EditorRefreshScreen(); // Refresing the screen after a single key press.
 void EditorDrawRows(); // Drawing a single column of characters "usually tildes ~" for the given window size.
@@ -55,15 +61,19 @@ int GetWindowSize(int *rows, int *columns);
 void InitEditor(); // Initialize editor parameters.
 int GetCursorPosition(int *rows, int *cols); // Get position using ioctl(). In case of failure use a custom-built function.
 void AbAppend(abuf *b, const char *s, int len);
-void AbFree(abuf *b);
-void EditorMoveCursor(char key); // Moving cursor using WASD keyboard keys.
-
-
+void AbFree(abuf *b); // Freeing string member of append buffer.
+void EditorMoveCursor(int key); // Moving cursor using WASD keyboard keys.
 
 /*    ----- Global variables -----   */
 
 extern EditorConfig E;
 extern DefWs ws;
 extern abuf ab;
+extern EditorKey ed;
 
 #endif /* UTILS_H_ */
+
+
+
+
+
