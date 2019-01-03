@@ -6,6 +6,11 @@
 
 #include "utils.h"
 
+// Declaring global variables
+    EditorConfig E;
+    DefWs ws;
+    EditorKey ed;
+
 int main(void){
 
     EnableRawMode();
@@ -15,6 +20,8 @@ int main(void){
         EditorRefreshScreen();
         EditorProcessKeyPress();
     }
+    
+    
     
     return EXIT_SUCCESS;
 }

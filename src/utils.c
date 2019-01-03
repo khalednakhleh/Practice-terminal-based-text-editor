@@ -6,9 +6,7 @@
 //  Implementation file for utils.h
 
 #include "utils.h"
-/* Defining structures */
-EditorConfig E;
-DefWs ws;
+
 /*---------------------*/
 
 void EnableRawMode(){
