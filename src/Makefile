@@ -2,20 +2,17 @@
 
 CC=gcc
 
-IDIR =../include
+IDIR = ../include
 CFLAGS= -g -Wall -std=c99 -Wextra -pedantic -I$(IDIR)
 ODIR=obj
 LDIR =../lib
-
-_DEPS = utils.h
-DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 _OBJ = main.o utils.o editor.o 
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 ####################################################
 
-$(ODIR)/%.o: %.c $(DEPS)
+$(ODIR)/%.o: %.c
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 ../exe/kiloed: $(OBJ)

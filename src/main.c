@@ -5,6 +5,7 @@
 //  Copyright © 2018 Khaled Nakhleh. All rights reserved.
 
 #include "utils.h"
+#include "editor.h"
 
 // Declaring global variables
     EditorConfig E;
@@ -20,8 +21,6 @@ int main(void){
         EditorRefreshScreen();
         EditorProcessKeyPress();
     }
-    
-    
     
     return EXIT_SUCCESS;
 }

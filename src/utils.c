@@ -6,7 +6,6 @@
 //  Implementation file for utils.h
 
 #include "utils.h"
-
 /*---------------------*/
 
 void EnableRawMode(){
@@ -57,7 +56,7 @@ void  Die(const char *s){
 
 void AbAppend(abuf *b, const char *s, int len){
     char *new = realloc(b->b, b->len + len);
-
+    
     if (new == NULL) return;
     memcpy(&new[b->len], s, len);
     b->b = new;

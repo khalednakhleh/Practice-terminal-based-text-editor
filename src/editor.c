@@ -3,9 +3,10 @@
 //
 //  Created by Khaled Nakhleh on 12/31/18.
 //  Copyright © 2018 Khaled Nakhleh. All rights reserved.
-//  Implementation file for editor operations. Functions are declared in header file "utils.h"
+//  Implementation file for editor operations. Functions are declared in header files "utils.h" and "editor.h"
 
 #include "utils.h"
+#include "editor.h"
 
 void InitEditor(){
 	E.cx = 0;
